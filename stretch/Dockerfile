@@ -1,16 +1,16 @@
 ## Multi-stage builds
 
-ARG SSH_PHP_FROM=
-ARG SSH_COMPOSER_FROM=
-#ARG SSH_PHP_FROM=vavyskov/php:7.2-apache-stretch
-#ARG SSH_COMPOSER_FROM=vavyskov/php:7.2-apache-stretch
+ARG PHP_FROM=
+ARG COMPOSER_FROM=
+#ARG PHP_FROM=vavyskov/php:7.2-apache-stretch
+#ARG COMPOSER_FROM=vavyskov/php:7.2-apache-stretch
 
-FROM ${SSH_PHP_FROM:-debian:stretch-slim} AS php
+FROM ${PHP_FROM:-debian:stretch-slim} AS php
 RUN test -f /usr/local/bin/php || mkdir -p /usr/local/bin/php \
 &&  test -d /usr/lib || mkdir -p /usr/lib \
 &&  test -d /lib || mkdir -p /lib
 
-FROM ${SSH_COMPOSER_FROM:-debian:stretch-slim} AS composer
+FROM ${COMPOSER_FROM:-debian:stretch-slim} AS composer
 RUN test -f /usr/bin/composer || mkdir -p /usr/bin/composer
 
 FROM debian:stretch-slim
