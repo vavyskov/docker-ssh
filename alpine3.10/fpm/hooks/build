@@ -1,0 +1,20 @@
+#!/bin/bash
+
+docker build \
+    --build-arg PHP_FROM=vavyskov/php:7.3-fpm-alpine3.10 \
+    --build-arg COMPOSER_FROM=vavyskov/php:7.3-fpm-alpine3.10 \
+    -t vavyskov/ssh:vavyskov-php-7.3-fpm-alpine3.10 \
+    .
+docker push vavyskov/ssh:vavyskov-php-7.3-fpm-alpine3.10
+
+docker build \
+    --build-arg PHP_FROM=vavyskov/php:7.2-fpm-alpine3.10 \
+    --build-arg COMPOSER_FROM=vavyskov/php:7.2-fpm-alpine3.10 \
+    -t vavyskov/ssh:vavyskov-php-7.2-fpm-alpine3.10 \
+    .
+docker push vavyskov/ssh:vavyskov-php-7.2-fpm-alpine3.10
+
+docker build \
+    -t vavyskov/ssh:alpine3.10 \
+    .
+docker push vavyskov/ssh:alpine3.10

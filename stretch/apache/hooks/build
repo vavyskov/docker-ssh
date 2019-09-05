@@ -1,0 +1,20 @@
+#!/bin/bash
+
+docker build \
+    --build-arg PHP_FROM=vavyskov/php:7.3-apache-stretch \
+    --build-arg COMPOSER_FROM=vavyskov/php:7.3-apache-stretch \
+    -t vavyskov/ssh:vavyskov-php-7.3-apache-stretch \
+    .
+docker push vavyskov/ssh:vavyskov-php-7.3-apache-stretch
+
+docker build \
+    --build-arg PHP_FROM=vavyskov/php:7.2-apache-stretch \
+    --build-arg COMPOSER_FROM=vavyskov/php:7.2-apache-stretch \
+    -t vavyskov/ssh:vavyskov-php-7.2-apache-stretch \
+    .
+docker push vavyskov/ssh:vavyskov-php-7.2-apache-stretch
+
+docker build \
+    -t vavyskov/ssh:stretch \
+    .
+docker push vavyskov/ssh:stretch
