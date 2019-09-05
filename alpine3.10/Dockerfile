@@ -5,14 +5,14 @@ ARG COMPOSER_FROM=
 #ARG PHP_FROM=vavyskov/php:7.2-fpm-alpine3.10
 #ARG COMPOSER_FROM=vavyskov/php:7.2-fpm-alpine3.10
 
-FROM ${PHP_FROM:-alpine3.10} AS php
+FROM ${PHP_FROM:-alpine:3.10} AS php
 RUN test -f /usr/local/bin/php || mkdir -p /usr/local/bin/php \
 &&  test -d /usr/lib || mkdir -p /usr/lib
 
-FROM ${COMPOSER_FROM:-alpine3.10} AS composer
+FROM ${COMPOSER_FROM:-alpine:3.10} AS composer
 RUN test -f /usr/bin/composer || mkdir -p /usr/bin/composer
 
-FROM alpine3.10
+FROM alpine:3.10
 
 ENV USER_NAME=www-data
 ENV USER_PASSWORD=www-data
