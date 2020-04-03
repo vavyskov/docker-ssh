@@ -155,7 +155,7 @@ RUN echo "nodejs yarn" \
 
 RUN echo "SSH" \
 &&  apk add --no-cache \
-        openssh \
+        openssh-server \
         #bash \
 &&  ssh-keygen -A \
 #&&  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
