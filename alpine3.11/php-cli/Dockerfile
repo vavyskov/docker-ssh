@@ -3,7 +3,7 @@ ARG ALPINE_VERSION=3.11
 
 FROM php:${PHP_VERSION:+${PHP_VERSION}-}cli-alpine${ALPINE_VERSION}
 
-ENV IMAGE_MODE dev
+ENV PROJECT_MODE dev
 ENV DOCUMENT_ROOT /var/www/html/public
 ENV SSH_HOME /var/www
 ENV SSH_USER ssh
@@ -169,7 +169,6 @@ RUN echo "SSH" \
 
 RUN echo "System tools" \
 &&  apk add --no-cache \
-#        ghostscript \
         git \
         ## The default busybox wget cannot handle (https) proxies
         wget \

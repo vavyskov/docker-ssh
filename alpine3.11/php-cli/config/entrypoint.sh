@@ -80,7 +80,7 @@ if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
 fi
 
 ## Image mode (dev | prod)
-if [ "${IMAGE_MODE}" = "dev" ]; then
+if [ "${PROJECT_MODE}" = "dev" ]; then
 
     ## Enable PHP extension
     sed -i "s/#zend_extension/zend_extension/" /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
