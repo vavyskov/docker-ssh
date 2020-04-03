@@ -6,15 +6,15 @@ FROM php:${PHP_VERSION:+${PHP_VERSION}-}cli-alpine${ALPINE_VERSION}
 ENV PROJECT_MODE dev
 ENV DOCUMENT_ROOT /var/www/html/public
 ENV SSH_HOME /var/www
-ENV SSH_USER ssh
-ENV SSH_PASSWORD ssh
+ENV SSH_USER user
+ENV SSH_PASSWORD password
 ENV GIT_EMAIL my@email.com
 ## Equivalent ways of writing a variable: ENV GIT_NAME=My\ Name | ENV GIT_NAME="My Name"
 ## Attention: ENV GIT_NAME="" does not contain empty string, but contains ""
 ENV GIT_NAME My Name
 ENV SMTP_MAILHUB 192.168.99.100
 ENV SMTP_MAILHUB_PORT 1025
-ENV SMTP_DOMAIN vavyskov.cz
+ENV SMTP_DOMAIN example.com
 ## A way, how to create an unset variable
 ENV SMTP_USER ${UNSET}
 ENV SMTP_PASSWORD password
@@ -189,16 +189,6 @@ RUN echo "Symfony CLI" \
 
 ## Create document root
 #RUN mkdir -p "${DOCUMENT_ROOT}"
-
-#RUN echo "Default data" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        git \
-#&&  git clone https://gitlab.com/vavyskov/webserver-info.git /tmp/webserver-info \
-#&&  cp -R /tmp/webserver-info/src/. ${DOCUMENT_ROOT} \
-##&&  rm ${DOCUMENT_ROOT}/index.html \
-#&&  rm -fr /tmp/webserver-info \
-#&&  apk del --purge .build-deps \
-#&&  chown -R 82:82 ${DOCUMENT_ROOT}
 
 ## Set permission (82 is the standard uid/gid for "www-data" in Alpine)
 #RUN chown -R 82:82 ${SSH_HOME}
