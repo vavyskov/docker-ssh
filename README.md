@@ -13,6 +13,11 @@ Login:
 - user name: `www-data`
 - user password: `www-data`
 
+CLI:
+- wp
+- drupal
+- symfony
+
 ToDo:
 - Change everything by "alpine.3.11/php-cli"
 

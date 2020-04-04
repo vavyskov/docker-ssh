@@ -22,12 +22,12 @@ ENV SMTP_METHOD LOGIN
 ## Proxy server example: "http://user:password@proxy.example.com:8080"
 ENV PROXY_SERVER=${UNSET}
 
-### PHP extension: MySQL, MariaDB, Percona Server, or equivalent (Wordpress: mysqli, Drupal: pdo_mysql)
-#RUN echo "PHP extension: mysqli pdo_mysql" \
-#&&  docker-php-ext-install \
-#        mysqli \
-#        pdo_mysql
-#
+## PHP extension: MySQL, MariaDB, Percona Server, or equivalent (Wordpress: mysqli, Drupal: pdo_mysql)
+RUN echo "PHP extension: mysqli pdo_mysql" \
+&&  docker-php-ext-install \
+        mysqli \
+        pdo_mysql
+
 #RUN echo "PHP extension: opcache" \
 #&&  docker-php-ext-install \
 #        opcache
@@ -77,18 +77,18 @@ ENV PROXY_SERVER=${UNSET}
 #&&  docker-php-ext-install \
 #        ldap \
 #&&  apk del --purge .build-deps
-#
-#RUN echo "PHP extension: pgsql pdo_pgsql" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        postgresql-dev \
-#        #postgresql-client \
-#&&  apk add --no-cache \
-#        libpq \
-#&&  docker-php-ext-install \
-#        pgsql \
-#        pdo_pgsql \
-#&&  apk del --purge .build-deps
-#
+
+RUN echo "PHP extension: pgsql pdo_pgsql" \
+&&  apk add --no-cache --virtual .build-deps \
+        postgresql-dev \
+        #postgresql-client \
+&&  apk add --no-cache \
+        libpq \
+&&  docker-php-ext-install \
+        pgsql \
+        pdo_pgsql \
+&&  apk del --purge .build-deps
+
 #RUN echo "PHP extension: imagick" \
 #&&  apk add --no-cache --virtual .build-deps \
 #        ${PHPIZE_DEPS} \
@@ -179,6 +179,16 @@ RUN echo "System tools" \
         #unzip \
         vim \
         mc
+
+RUN echo "Wordpress CLI" \
+&&  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+&&  chmod +x wp-cli.phar \
+&&  mv wp-cli.phar /usr/local/bin/wp
+
+RUN echo "Drupal Console (CLI)" \
+&&  curl https://drupalconsole.com/installer -L -o drupal.phar \
+&&  chmod +x drupal.phar \
+&&  mv drupal.phar /usr/local/bin/drupal
 
 RUN echo "Symfony CLI" \
 &&  apk add --no-cache --virtual .build-deps \
