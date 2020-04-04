@@ -41,12 +41,23 @@ RUN echo "PHP extension: mysqli pdo_mysql" \
 #&&  docker-php-ext-install \
 #        bcmath
 
-### PHP extension: gd (other librarires: libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev)
+### php -r 'print_r(gd_info());'
 #RUN echo "PHP extension: gd" \
 #&&  apk add --no-cache --virtual .build-deps \
 #        libpng-dev \
+#        zlib-dev \
+#        libjpeg-turbo-dev \
+#        freetype-dev \
+#        libwebp-dev \
+#        libxpm-dev \
 #&&  apk add --no-cache \
 #        libpng \
+#&&  docker-php-ext-configure gd \
+#        --with-jpeg=/usr/include/ \
+#        --with-freetype=/usr/include/ \
+#        --with-xpm=/usr/include/ \
+#        #--enable-gd-jis-conv=/usr/include/ \
+#        --with-webp=/usr/include/ \
 #&&  docker-php-ext-install gd \
 #&&  apk del --purge .build-deps
 #
