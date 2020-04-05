@@ -44,8 +44,11 @@ RUN echo "PHP extensions" \
         bcmath \
         zip \
         opcache \
+        sockets \
+        ssh2 \
         ## PHP-CLI only
         xdebug \
+        #bash \
 &&  rm /usr/local/bin/install-php-extensions
 
 ## ToDo: ICU 65.1 (now 64.2)
