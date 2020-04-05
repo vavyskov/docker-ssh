@@ -21,148 +21,54 @@ ENV SMTP_PASSWORD password
 ENV SMTP_METHOD LOGIN
 ## Proxy server example: "http://user:password@proxy.example.com:8080"
 ENV PROXY_SERVER=${UNSET}
+ENV XDEBUG_HOSTNAME=192.168.99.100
 
-## PHP extension: MySQL, MariaDB, Percona Server, or equivalent (Wordpress: mysqli, Drupal: pdo_mysql)
-RUN echo "PHP extension: mysqli pdo_mysql" \
-&&  docker-php-ext-install \
-        mysqli \
-        pdo_mysql
+## https://github.com/mlocati/docker-php-extension-installer/
+RUN echo "PHP extensions" \
+&&  wget https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions \
+&&  mv install-php-extensions /usr/local/bin/ \
+&&  chmod +x /usr/local/bin/install-php-extensions \
+&&  sync \
+&&  install-php-extensions \
+        pdo_mysql mysqli \
+        pdo_pgsql pgsql \
+        mongodb \
+        #ldap \
+        gd \
+        imagick \
+        #exif \
+        #bcmath \
+        #zip \
+        #intl \
+        #apcu \
+        #opcache \
+        xdebug \
+&&  rm /usr/local/bin/install-php-extensions
 
-#RUN echo "PHP extension: opcache" \
-#&&  docker-php-ext-install \
-#        opcache
-##COPY config/opcache.ini /usr/local/etc/php/conf.d/
-#
-#RUN echo "PHP extension: exif" \
-#&&  docker-php-ext-install \
-#        exif
-#
-#RUN echo "PHP extension: bcmath" \
-#&&  docker-php-ext-install \
-#        bcmath
+## php -r 'print_r(gd_info());'
 
-### php -r 'print_r(gd_info());'
-#RUN echo "PHP extension: gd" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        libpng-dev \
-#        zlib-dev \
-#        libjpeg-turbo-dev \
-#        freetype-dev \
-#        libwebp-dev \
-#        libxpm-dev \
-#&&  apk add --no-cache \
-#        libpng \
-#&&  docker-php-ext-configure gd \
-#        --with-jpeg=/usr/include/ \
-#        --with-freetype=/usr/include/ \
-#        --with-xpm=/usr/include/ \
-#        #--enable-gd-jis-conv=/usr/include/ \
-#        --with-webp=/usr/include/ \
-#&&  docker-php-ext-install gd \
-#&&  apk del --purge .build-deps
-#
-#RUN echo "PHP extension: zip" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        libzip-dev \
-#&&  apk add --no-cache \
-#        libzip \
-#&&  docker-php-ext-install zip \
-#&&  apk del --purge .build-deps
+## ToDo: ICU 65.1 (now 64.2)
 
-### ToDo: ICU 65.1 (now 64.2)
-#RUN echo "PHP extension: intl" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        icu-dev \
-#&&  apk add --no-cache \
-#        icu-libs \
-#        libintl \
-##&&  docker-php-ext-configure intl --with-icu-dir=/usr/local
-#&&  docker-php-ext-install intl \
-#&&  apk del --purge .build-deps
-#
-#RUN echo "PHP extension: ldap" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        openldap-dev \
-#&&  apk add --no-cache \
-#        libldap \
-#&&  docker-php-ext-install \
-#        ldap \
-#&&  apk del --purge .build-deps
-
-RUN echo "PHP extension: pgsql pdo_pgsql" \
+RUN echo "PHP extension: uploadprogress" \
 &&  apk add --no-cache --virtual .build-deps \
-        postgresql-dev \
-        #postgresql-client \
-&&  apk add --no-cache \
-        libpq \
-&&  docker-php-ext-install \
-        pgsql \
-        pdo_pgsql \
+        git \
+&&  git clone https://github.com/php/pecl-php-uploadprogress/ /usr/src/php/ext/uploadprogress/ \
+&&  docker-php-ext-install uploadprogress \
+&&  rm -fr /usr/src/php/ext/uploadprogress \
 &&  apk del --purge .build-deps
-
-#RUN echo "PHP extension: imagick" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        ${PHPIZE_DEPS} \
-#        imagemagick-dev \
-#&&  apk add --no-cache \
-#        imagemagick \
-#&&  pecl install imagick \
-#&&  docker-php-ext-enable imagick \
-#&&  pecl clear-cache \
-#&&  apk del --purge .build-deps
-#
-#RUN echo "PHP extension: apcu" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        ${PHPIZE_DEPS} \
-#&&  pecl install apcu \
-#&&  docker-php-ext-enable apcu \
-#&&  pecl clear-cache \
-#&&  apk del --purge .build-deps
-#
-#RUN echo "PHP extension: mongodb" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        ${PHPIZE_DEPS} \
-#        #openssl-dev \
-#        #pcre-dev \
-#&&  pecl install mongodb \
-#&&  docker-php-ext-enable mongodb \
-#&&  pecl clear-cache \
-#&&  apk del --purge .build-deps
-
-RUN echo "PHP extension:  xdebug" \
-&&  apk add --no-cache --virtual .build-deps \
-        ${PHPIZE_DEPS} \
-&&  pecl install xdebug \
-&&  docker-php-ext-enable xdebug \
-&&  pecl clear-cache \
-&&  apk del --purge .build-deps \
-&&  echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini
-
-#RUN echo "PHP extension: uploadprogress" \
-#&&  apk add --no-cache --virtual .build-deps \
-#        git \
-#&&  git clone https://github.com/php/pecl-php-uploadprogress/ /usr/src/php/ext/uploadprogress/ \
-#&&  docker-php-ext-install uploadprogress \
-#&&  rm -fr /usr/src/php/ext/uploadprogress \
-#&&  apk del --purge .build-deps
 
 ## php.ini configuration viz entrypoint.sh
 
-## Composer (get path command: which composer)
-#COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
-## ??????????????
 #RUN echo "Sendmail" \
 #&&  apk add --no-cache ssmtp \
 #&&  echo 'sendmail_path = /usr/sbin/ssmtp -t' > /usr/local/etc/php/conf.d/mail.ini
 ### Sendmail configuraton viz entrypoint.sh
 
-RUN echo "nodejs yarn" \
-&&  apk add --no-cache \
-        npm \
-        nodejs \
-&&  npm install -g yarn
+## MongoDB - missing in oficial repository (in this repository is old version)
+#RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
+#&&  apk add --no-cache \
+#        mongodb \
+#        mongodb-tools
 
 RUN echo "SSH" \
 &&  apk add --no-cache \
@@ -171,12 +77,6 @@ RUN echo "SSH" \
 &&  ssh-keygen -A \
 #&&  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
 &&  sed -i 's/#PasswordAuthentication/PasswordAuthentication/' /etc/ssh/sshd_config
-
-## MongoDB - missing in oficial repository (in this repository is old version)
-#RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
-#&&  apk add --no-cache \
-#        mongodb \
-#        mongodb-tools
 
 RUN echo "System tools" \
 &&  apk add --no-cache \
@@ -190,6 +90,16 @@ RUN echo "System tools" \
         #unzip \
         vim \
         mc
+
+RUN echo "nodejs yarn" \
+&&  apk add --no-cache \
+        npm \
+        nodejs \
+&&  npm install -g yarn
+
+## Composer (get path command: which composer)
+#COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 RUN echo "Wordpress CLI" \
 &&  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
