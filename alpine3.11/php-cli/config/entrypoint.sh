@@ -159,35 +159,46 @@ else
 fi
 
 ## Sendmail
-if [ -n "${SMTP_MAILHUB}" ] && [ -n "${SMTP_MAILHUB_PORT}" ] && [ -z "${SMTP_USER}" ]; then
+if [ -n "${SMTP_HOSTNAME}" ] && [ -n "${SMTP_PORT}" ] && [ -z "${SMTP_USER}" ]; then
     { \
-        echo "mailhub=${SMTP_MAILHUB}:${SMTP_MAILHUB_PORT}"; \
-        echo 'FromLineOverride=YES'; \
-    } > /etc/ssmtp/ssmtp.conf
+        echo 'account default'; \
+        echo "host ${SMTP_HOSTNAME}"; \
+        echo "port ${SMTP_PORT}"; \
+        echo "from ${SMTP_FROM}";
+        echo 'syslog on'; \
+        echo 'logfile /var/log/msmtp.log'; \
+    } > /etc/msmtprc
 else
     { \
-        echo '# root=postmaster@project-name.local'; \
-        echo "mailhub=${SMTP_MAILHUB}:${SMTP_MAILHUB_PORT}"; \
-        echo "rewriteDomain=${SMTP_DOMAIN}"; \
-        echo "hostname=$(hostname -f)"; \
-        echo '# TLS_CA_FILE=/etc/ssl/certs/ca-certificates.crt'; \
-        echo '# UseTLS=YES'; \
-        echo '# UseSTARTTLS=YES'; \
-        echo "AuthUser=${SMTP_USER}"; \
-        echo "AuthPass=${SMTP_PASSWORD}"; \
-        echo "AuthMethod=${SMTP_METHOD}"; \
-        echo 'FromLineOverride=YES'; \
-    } > /etc/ssmtp/ssmtp.conf
+        echo 'account default'; \
+        echo "host ${SMTP_HOSTNAME}"; \
+        echo "port ${SMTP_PORT}"; \
+        echo "from ${SMTP_FROM}"; \
+        echo 'syslog on'; \
+        echo 'logfile /var/log/msmtp.log'; \
+        echo 'auth login'; \
+        echo "user ${SMTP_USER}"; \
+        echo "password ${SMTP_PASSWORD}"; \
+        echo '#tls on'; \
+        echo 'tls_starttls on'; \
+        echo 'tls_trust_file /etc/ssl/certs/ca-certificates.crt'; \
+        echo 'tls_certcheck on'; \
+    } > /etc/msmtprc
 
-#    cat << EOF > /etc/ssmtp/ssmtp.conf
-#root=user@host.name
-#hostname=host.name
-#mailhub=smtp.host.name:465
-#FromLineOverride=YES
-#AuthUser=username@gmail.com
-#AuthPass=password
-#AuthMethod=LOGIN
-#UseTLS=YES
+#    cat << EOF > /etc/msmtprc
+#account default
+#host ${SMTP_HOSTNAME}
+#port ${SMTP_PORT}
+#from ${SMTP_FROM}
+#syslog on
+#logfile /var/log/msmtp.log
+#auth login
+#user ${SMTP_USER}
+#password ${SMTP_PASSWORD}
+##tls on
+#tls_starttls on
+#tls_trust_file /etc/ssl/certs/ca-certificates.crt
+#tls_certcheck on
 #EOF
 
 fi

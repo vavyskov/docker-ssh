@@ -12,13 +12,12 @@ ENV GIT_EMAIL my@email.com
 ## Equivalent ways of writing a variable: ENV GIT_NAME=My\ Name | ENV GIT_NAME="My Name"
 ## Attention: ENV GIT_NAME="" does not contain empty string, but contains ""
 ENV GIT_NAME My Name
-ENV SMTP_MAILHUB 192.168.99.100
-ENV SMTP_MAILHUB_PORT 1025
-ENV SMTP_DOMAIN example.com
+ENV SMTP_HOSTNAME 192.168.99.100
+ENV SMTP_PORT 1025
+ENV SMTP_FROM team@example.com
 ## A way, how to create an unset variable
 ENV SMTP_USER ${UNSET}
 ENV SMTP_PASSWORD password
-ENV SMTP_METHOD LOGIN
 ## Proxy server example: "http://user:password@proxy.example.com:8080"
 ENV PROXY_SERVER=${UNSET}
 ENV XDEBUG_HOSTNAME=192.168.99.100
@@ -63,10 +62,11 @@ RUN echo "PHP extension: uploadprogress" \
 
 ## php.ini configuration viz entrypoint.sh
 
-#RUN echo "Sendmail" \
-#&&  apk add --no-cache ssmtp \
-#&&  echo 'sendmail_path = /usr/sbin/ssmtp -t' > /usr/local/etc/php/conf.d/mail.ini
-### Sendmail configuraton viz entrypoint.sh
+RUN echo "Sendmail" \
+&&  apk add --no-cache msmtp \
+&&  echo 'sendmail_path = /usr/bin/msmtp -t --read-envelope-from' > /usr/local/etc/php/conf.d/mail.ini
+#&&  echo 'sendmail_path = /usr/bin/msmtp -t' > /usr/local/etc/php/conf.d/mail.ini
+## Sendmail configuraton viz entrypoint.sh
 
 ## MongoDB - missing in oficial repository (in this repository is old version)
 #RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories \
