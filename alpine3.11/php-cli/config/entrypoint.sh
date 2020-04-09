@@ -165,8 +165,8 @@ if [ -n "${SMTP_HOSTNAME}" ] && [ -n "${SMTP_PORT}" ] && [ -z "${SMTP_USER}" ]; 
         echo "host ${SMTP_HOSTNAME}"; \
         echo "port ${SMTP_PORT}"; \
         echo "from ${SMTP_FROM}";
-        echo 'syslog on'; \
-        echo 'logfile /var/log/msmtp.log'; \
+        echo '#syslog on'; \
+        echo '#logfile /var/log/msmtp.log'; \
     } > /etc/msmtprc
 else
     { \
@@ -174,8 +174,8 @@ else
         echo "host ${SMTP_HOSTNAME}"; \
         echo "port ${SMTP_PORT}"; \
         echo "from ${SMTP_FROM}"; \
-        echo 'syslog on'; \
-        echo 'logfile /var/log/msmtp.log'; \
+        echo '#syslog on'; \
+        echo '#logfile /var/log/msmtp.log'; \
         echo 'auth login'; \
         echo "user ${SMTP_USER}"; \
         echo "password ${SMTP_PASSWORD}"; \
@@ -205,7 +205,7 @@ fi
 
 ## Proxy (env | grep proxy)
 if [ -n "${PROXY_SERVER}" ]; then
-    for i in wget composer npm yarn
+    for i in wget curl composer npm yarn wp drupal symfony
     do
         { \
             echo '#!/bin/sh'; \

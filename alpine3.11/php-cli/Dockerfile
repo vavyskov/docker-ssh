@@ -12,7 +12,7 @@ ENV GIT_EMAIL my@email.com
 ## Equivalent ways of writing a variable: ENV GIT_NAME=My\ Name | ENV GIT_NAME="My Name"
 ## Attention: ENV GIT_NAME="" does not contain empty string, but contains ""
 ENV GIT_NAME My Name
-ENV SMTP_HOSTNAME 192.168.99.100
+ENV SMTP_HOSTNAME ${UNSET}
 ENV SMTP_PORT 1025
 ENV SMTP_FROM team@example.com
 ## A way, how to create an unset variable
