@@ -108,18 +108,18 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN echo "Wordpress CLI" \
 &&  curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 &&  chmod +x wp-cli.phar \
-&&  mv wp-cli.phar /usr/local/bin/wp
+&&  mv wp-cli.phar /usr/bin/wp
 
 RUN echo "Drupal Console (CLI)" \
 &&  curl https://drupalconsole.com/installer -L -o drupal.phar \
 &&  chmod +x drupal.phar \
-&&  mv drupal.phar /usr/local/bin/drupal
+&&  mv drupal.phar /usr/bin/drupal
 
 RUN echo "Symfony CLI" \
 &&  apk add --no-cache --virtual .build-deps \
         bash \
 &&  wget https://get.symfony.com/cli/installer -O - | bash \
-&&  mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
+&&  mv /root/.symfony/bin/symfony /usr/bin/symfony \
 &&  apk del --purge .build-deps
 
 ## Create document root
