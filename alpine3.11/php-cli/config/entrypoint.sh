@@ -61,6 +61,7 @@ if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
 #    sed -i "s/group = ${WEB_GROUP}/group = ${SSH_GROUP}/g" /usr/local/etc/php-fpm.d/www.conf
 
     ## Shell configuration - Drupal
+    ## Reload changes: source ~/.bashrc (shorter version: . ~/.bashrc)
     { \
         echo 'export PATH="$PATH:/var/www/html/vendor/bin"'; \
     } >> "${SSH_HOME}"/.bashrc
