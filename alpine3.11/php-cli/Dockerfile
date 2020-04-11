@@ -76,7 +76,7 @@ RUN echo "Sendmail" \
 
 RUN echo "SSH" \
 &&  apk add --no-cache \
-        openssh-server \
+        openssh \
         #bash \
 &&  ssh-keygen -A \
 #&&  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
