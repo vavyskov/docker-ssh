@@ -78,7 +78,7 @@ RUN echo "SSH" \
 &&  apk add --no-cache \
         ## openssh-server + openssh-client + openssh-sftp-server
         openssh \
-        #bash \
+        bash \
 &&  ssh-keygen -A \
 #&&  sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
 &&  sed -i 's/#PasswordAuthentication/PasswordAuthentication/' /etc/ssh/sshd_config
