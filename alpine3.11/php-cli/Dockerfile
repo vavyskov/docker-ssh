@@ -76,6 +76,7 @@ RUN echo "Sendmail" \
 
 RUN echo "SSH" \
 &&  apk add --no-cache \
+        ## openssh-server + openssh-client + openssh-sftp-server
         openssh \
         #bash \
 &&  ssh-keygen -A \
