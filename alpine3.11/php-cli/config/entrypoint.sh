@@ -112,14 +112,14 @@ if [ "${PROJECT_MODE}" = "dev" ]; then
       echo 'upload_max_filesize = 128M'; \
       echo 'post_max_size = 256M'; \
       echo ''; \
-      #echo '[Xdebug]'; \
-      #echo 'xdebug.remote_enable=1'; \
-      #echo 'xdebug.idekey=PHPSTORM'; \
-      #echo 'xdebug.profiler_enable=0'; \
-      #echo 'xdebug.max_nesting_level=700'; \
-      #echo "xdebug.remote_host=${XDEBUG_HOSTNAME}"; \
-      #echo 'xdebug.remote_port=9000'; \
-      #echo ''; \
+      echo '[Xdebug]'; \
+      echo 'xdebug.remote_enable=1'; \
+      echo 'xdebug.idekey=PHPSTORM'; \
+      echo 'xdebug.profiler_enable=0'; \
+      echo 'xdebug.max_nesting_level=700'; \
+      echo "xdebug.remote_host=${XDEBUG_HOSTNAME}"; \
+      echo "xdebug.remote_port=${XDEBUG_PORT}"; \
+      echo ''; \
       #echo '[OPcode]'; \
       #echo 'opcache.memory_consumption = 128'; \
       #echo 'opcache.interned_strings_buffer = 8'; \

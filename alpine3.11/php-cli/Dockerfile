@@ -21,6 +21,7 @@ ENV SMTP_PASSWORD password
 ## Proxy server example: "http://user:password@proxy.example.com:8080"
 ENV PROXY_SERVER=${UNSET}
 ENV XDEBUG_HOSTNAME=192.168.99.100
+ENV XDEBUG_PORT=9000
 
 ## https://github.com/mlocati/docker-php-extension-installer/
 ## php -r 'print_r(gd_info());'
