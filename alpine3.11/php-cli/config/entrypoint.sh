@@ -96,42 +96,42 @@ if [ "${PROJECT_MODE}" = "dev" ]; then
 
     ## Override recommended php.ini
     { \
-      echo '[Performance]'; \
-      echo 'memory_limit = -1'; \
-      echo 'max_execution_time = 300'; \
-      echo ''; \
-      echo '[Time zone]'; \
-      echo 'date.timezone = "Europe/Prague"'; \
-      echo ''; \
-      echo '[Error reporting]'; \
-      echo 'error_log = /dev/stderr'; \
-      #echo 'error_log = php_error.log'; \
-      echo 'html_errors = On'; \
-      echo ''; \
-      echo '[Upload files]'; \
-      echo 'upload_max_filesize = 128M'; \
-      echo 'post_max_size = 256M'; \
-      echo ''; \
-      echo '[Xdebug]'; \
-      echo 'xdebug.remote_enable=1'; \
-      echo 'xdebug.idekey=PHPSTORM'; \
-      echo 'xdebug.profiler_enable=0'; \
-      echo 'xdebug.max_nesting_level=700'; \
-      echo "xdebug.remote_host=${XDEBUG_HOSTNAME}"; \
-      echo "xdebug.remote_port=${XDEBUG_PORT}"; \
-      echo ''; \
-      #echo '[OPcode]'; \
-      #echo 'opcache.memory_consumption = 128'; \
-      #echo 'opcache.interned_strings_buffer = 8'; \
-      #echo 'opcache.max_accelerated_files = 10000'; \
-      #echo 'opcache.revalidate_freq = 2'; \
-      #echo 'opcache.huge_code_pages = 0'; \
-      #echo 'realpath_cache_size = 4096k'; \
-      #echo 'realpath_cache_ttl = 7200'; \
-      #echo ''; \
-      #echo '[Drupal Commerce Kickstart]'; \
-      #echo 'mbstring.http_input = pass'; \
-      #echo 'mbstring.http_output = pass'; \
+        echo '[Performance]'; \
+        echo 'memory_limit = -1'; \
+        echo 'max_execution_time = 300'; \
+        echo ''; \
+        echo '[Time zone]'; \
+        echo 'date.timezone = "Europe/Prague"'; \
+        echo ''; \
+        echo '[Error reporting]'; \
+        echo 'error_log = /dev/stderr'; \
+        #echo 'error_log = php_error.log'; \
+        echo 'html_errors = On'; \
+        echo ''; \
+        echo '[Upload files]'; \
+        echo 'upload_max_filesize = 128M'; \
+        echo 'post_max_size = 256M'; \
+        echo ''; \
+        echo '[Xdebug]'; \
+        echo 'xdebug.remote_enable=1'; \
+        echo 'xdebug.idekey=PHPSTORM'; \
+        echo 'xdebug.profiler_enable=0'; \
+        echo 'xdebug.max_nesting_level=700'; \
+        echo "xdebug.remote_host=${XDEBUG_HOSTNAME}"; \
+        echo "xdebug.remote_port=${XDEBUG_PORT}"; \
+        echo ''; \
+        #echo '[OPcode]'; \
+        #echo 'opcache.memory_consumption = 128'; \
+        #echo 'opcache.interned_strings_buffer = 8'; \
+        #echo 'opcache.max_accelerated_files = 10000'; \
+        #echo 'opcache.revalidate_freq = 2'; \
+        #echo 'opcache.huge_code_pages = 0'; \
+        #echo 'realpath_cache_size = 4096k'; \
+        #echo 'realpath_cache_ttl = 7200'; \
+        #echo ''; \
+        #echo '[Drupal Commerce Kickstart]'; \
+        #echo 'mbstring.http_input = pass'; \
+        #echo 'mbstring.http_output = pass'; \
     } > /usr/local/etc/php/conf.d/zzz-overrides.ini
 
 else

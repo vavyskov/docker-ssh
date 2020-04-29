@@ -31,7 +31,6 @@ RUN echo "PHP extensions" \
 &&  chmod +x /usr/local/bin/install-php-extensions \
 &&  sync \
 &&  install-php-extensions \
-        ## PHP-FPM + PHP-CLI
         pdo_mysql mysqli \
         pdo_pgsql pgsql \
         mongodb \
@@ -46,7 +45,6 @@ RUN echo "PHP extensions" \
         opcache \
         sockets \
         ssh2 \
-        ## PHP-CLI only
         xdebug \
         #bash \
 &&  rm /usr/local/bin/install-php-extensions
