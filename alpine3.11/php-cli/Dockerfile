@@ -136,7 +136,7 @@ ENTRYPOINT ["entrypoint.sh"]
 
 WORKDIR /var/www/html
 
-EXPOSE 9000 22
+EXPOSE 22
 
 #COPY wait-for-it.sh /usr/bin/wait-for-it
 #RUN chmod +x /usr/bin/wait-for-it
