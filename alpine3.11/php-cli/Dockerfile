@@ -3,6 +3,8 @@ ARG ALPINE_VERSION=3.11
 
 FROM php:${PHP_VERSION:+${PHP_VERSION}-}cli-alpine${ALPINE_VERSION}
 
+ARG TZ=Europe/Prague
+
 ENV PROJECT_MODE dev
 ENV DOCUMENT_ROOT /var/www/html/public
 ENV SSH_HOME /var/www
@@ -22,6 +24,13 @@ ENV SMTP_PASSWORD password
 ENV PROXY_SERVER=${UNSET}
 ENV XDEBUG_HOSTNAME=192.168.99.100
 ENV XDEBUG_PORT=9000
+
+RUN echo "Setting the timezone..." \
+&&  apk add --no-cache --virtual .build-deps \
+        tzdata \
+&&  cp /usr/share/zoneinfo/${TZ} /etc/localtime \
+#&&  ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
+&&  apk del --purge .build-deps
 
 ## https://github.com/mlocati/docker-php-extension-installer/
 ## php -r 'print_r(gd_info());'

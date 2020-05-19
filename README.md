@@ -20,6 +20,11 @@ CLI:
 
 ToDo:
 - Change everything by "alpine.3.11/php-cli"
+- TimeZone:
+    - [x] alpine.3.11/php-cli
+    - [ ] alpine3.10
+    - [ ] buster
+    - [ ] stretch
 
 Tips:
 - https://www.pascallandau.com/blog/setup-phpstorm-with-xdebug-on-docker/
