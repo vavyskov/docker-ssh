@@ -20,6 +20,11 @@ CLI:
 
 ToDo:
 - Change everything by "alpine.3.11/php-cli"
+- PHP extensions `soap` and `xmlrpc`:
+    - [x] alpine.3.11/php-cli
+    - [ ] alpine3.10
+    - [ ] buster
+    - [ ] stretch
 - TimeZone:
     - [x] alpine.3.11/php-cli
     - [ ] alpine3.10

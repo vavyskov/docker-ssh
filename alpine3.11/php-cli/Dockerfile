@@ -54,6 +54,8 @@ RUN echo "PHP extensions" \
         opcache \
         sockets \
         ssh2 \
+        soap \
+        xmlrpc \
         xdebug \
         #bash \
 &&  rm /usr/local/bin/install-php-extensions
