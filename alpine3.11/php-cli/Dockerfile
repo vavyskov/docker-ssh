@@ -5,6 +5,7 @@ FROM php:${PHP_VERSION:+${PHP_VERSION}-}cli-alpine${ALPINE_VERSION}
 
 ARG TZ=Europe/Prague
 
+ENV TIME_ZONE ${TZ}
 ENV PROJECT_MODE dev
 ENV DOCUMENT_ROOT /var/www/html/public
 ENV SSH_HOME /var/www
@@ -21,9 +22,9 @@ ENV SMTP_FROM team@example.com
 ENV SMTP_USER ${UNSET}
 ENV SMTP_PASSWORD password
 ## Proxy server example: "http://user:password@proxy.example.com:8080"
-ENV PROXY_SERVER=${UNSET}
-ENV XDEBUG_HOSTNAME=192.168.99.100
-ENV XDEBUG_PORT=9000
+ENV PROXY_SERVER ${UNSET}
+ENV XDEBUG_HOSTNAME 192.168.99.100
+ENV XDEBUG_PORT 9000
 
 RUN echo "Setting the timezone..." \
 &&  apk add --no-cache --virtual .build-deps \

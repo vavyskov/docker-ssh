@@ -80,6 +80,11 @@ if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
 
 fi
 
+## TimeZone (default is Europe/Prague)
+if [ "${TIME_ZONE}" = "UTC" ]; then
+    rm /etc/localtime
+fi
+
 ## Image mode (dev | prod)
 if [ "${PROJECT_MODE}" = "dev" ]; then
 
