@@ -2,31 +2,54 @@
 ## Exit script if any command fails (non-zero status)
 set -e
 
+## Standard uid/gid for "www-data" for Alpine: 82, for Debian: 33
+WEB_USER_ID=82
+
 ## Set Time Zone
 #TZ="Europe/Prague"
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-## Get standard web user and group (standard uid/gid for "www-data" for Alpine: 82, for Debian: 33)
-WEB_USER=$(getent passwd 82 | cut -d: -f1)
-WEB_GROUP=$(getent group 82 | cut -d: -f1)
+## Get standard web user and group
+WEB_USER=$(getent passwd ${WEB_USER_ID} | cut -d: -f1)
+WEB_GROUP=$(getent group ${WEB_USER_ID} | cut -d: -f1)
 
 ## Simplification
 SSH_GROUP=${SSH_USER}
+HOST_GROUP_ID=${HOST_USER_ID}
+
+## Test if string is not empty
+if [ -n "${HOST_USER_ID}" ]; then
+
+    ## Test if userId is not standard webId
+    if [ "${HOST_USER_ID}" != "${WEB_USER_ID}" ]; then
+
+        # Set webUserId as hostUserId
+        WEB_USER_ID=${HOST_USER_ID}
+
+        ## Create user with hostId in container
+        groupadd -g ${HOST_GROUP_ID} ${SSH_GROUP}
+        useradd -d ${SSH_HOME} -s /bin/sh -g ${SSH_GROUP} -u ${HOST_USER_ID} ${SSH_USER}
+#        sed -i "s/user = ${WEB_USER}/user = ${SSH_USER}/g" /usr/local/etc/php-fpm.d/www.conf
+#        sed -i "s/group = ${WEB_GROUP}/group = ${SSH_GROUP}/g" /usr/local/etc/php-fpm.d/www.conf
+
+    fi
+
+fi
 
 ## Change home
 ## From: www-data:x:82:82:Linux User,,,:/home/www-data:/sbin/nologin
 ## To:   www-data:x:82:82:Linux User,,,:/var/www:/sbin/nologin
 ## Syntax: sed -i "/SEARCH/s/FIND/REPLACE/" /etc/passwd
-sed -i "/82/s/home\/${WEB_USER}/var\/www/" /etc/passwd
-chown "${WEB_USER}":"${WEB_GROUP}" "${SSH_HOME}"
+sed -i "/${WEB_USER_ID}/s/home\/${WEB_USER}/var\/www/" /etc/passwd
+chown -R "${SSH_USER}":"${SSH_GROUP}" "${SSH_HOME}"
 
 ## Set shell for standard web user (enable login)
 ## From: www-data:x:82:82:Linux User,,,:/var/www:/sbin/nologin
 ## To:   www-data:x:82:82:Linux User,,,:/var/www:/bin/sh
 ## Syntax: sed -i "/SEARCH/s/FIND/REPLACE/" /etc/passwd
-sed -i "/82/s/sbin\/nologin/bin\/sh/" /etc/passwd
+sed -i "/${WEB_USER_ID}/s/sbin\/nologin/bin\/sh/" /etc/passwd
 
-## Test if strings are not empty
+## Test if string is not empty
 if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
 
     ## Test if users are not the same
@@ -39,13 +62,13 @@ if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
         ## From: www-data:x:82:www-data
         ## To:   new-group:x:82:new-group
         ## Syntax: sed -i "s/FIND/REPLACE/" /etc/group
-        sed -i "s/${WEB_GROUP}:x:82:${WEB_GROUP}/${SSH_GROUP}:x:82:${SSH_GROUP}/" /etc/group
+        sed -i "s/${WEB_GROUP}:x:${WEB_USER_ID}:${WEB_GROUP}/${SSH_GROUP}:x:${WEB_USER_ID}:${SSH_GROUP}/" /etc/group
 
         ## Change user
         ## From: www-data:x:82:82:Linux User,,,:/var/www:/bin/sh
         ## To:   new-user:x:82:82:Linux User,,,:/var/www/bin/sh
         ## Syntax: sed -i "s/FIND/REPLACE/" /etc/passwd
-        sed -i "s/${WEB_USER}:x:82/${SSH_USER}:x:82/" /etc/passwd
+        sed -i "s/${WEB_USER}:x:${WEB_USER_ID}/${SSH_USER}:x:${WEB_USER_ID}/" /etc/passwd
 
     fi
 
