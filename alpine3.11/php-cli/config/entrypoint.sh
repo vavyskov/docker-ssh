@@ -36,12 +36,11 @@ if [ -n "${HOST_USER_ID}" ]; then
 
 fi
 
-## Change home
+## Change home path
 ## From: www-data:x:82:82:Linux User,,,:/home/www-data:/sbin/nologin
 ## To:   www-data:x:82:82:Linux User,,,:/var/www:/sbin/nologin
 ## Syntax: sed -i "/SEARCH/s/FIND/REPLACE/" /etc/passwd
 sed -i "/${WEB_USER_ID}/s/home\/${WEB_USER}/var\/www/" /etc/passwd
-chown -R "${SSH_USER}":"${SSH_GROUP}" "${SSH_HOME}"
 
 ## Set shell for standard web user (enable login)
 ## From: www-data:x:82:82:Linux User,,,:/var/www:/sbin/nologin
@@ -102,6 +101,9 @@ if [ -n "${SSH_USER}" ] && [ -n "${SSH_PASSWORD}" ]; then
 #    fi
 
 fi
+
+## Change home permission
+chown -R "${SSH_USER}":"${SSH_GROUP}" "${SSH_HOME}"
 
 ## TimeZone (default is Europe/Prague)
 if [ "${TIME_ZONE}" = "UTC" ]; then
